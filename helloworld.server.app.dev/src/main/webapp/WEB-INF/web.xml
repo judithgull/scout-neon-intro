@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    version="2.5">
+
+  <display-name>Helloworld Application</display-name>
+
+  <!-- Platform Startup listener -->
+  <listener>
+    <listener-class>org.eclipse.scout.rt.server.commons.WebappEventListener</listener-class>
+  </listener>
+
+  <!-- ServiceTunnelServlet -->
+  <servlet>
+    <servlet-name>process</servlet-name>
+    <servlet-class>org.eclipse.scout.rt.server.ServiceTunnelServlet</servlet-class>
+    <!-- Setup scout platform and application -->
+    <init-param>
+      <param-name>application</param-name>
+      <param-value>helloworld.server.ServerApplication</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <!-- Resource Servlet -->
+  <servlet>
+    <servlet-name>resource</servlet-name>
+    <servlet-class>org.eclipse.scout.rt.server.ResourceServlet</servlet-class>
+    <init-param>
+      <param-name>war-path</param-name>
+      <param-value>/resources/html</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet>
+    <servlet-name>remotefiles</servlet-name>
+    <servlet-class>org.eclipse.scout.rt.server.RemoteFileServlet</servlet-class>
+  </servlet>
+
+  <filter>
+    <filter-name>AuthFilter</filter-name>
+    <filter-class>helloworld.server.BsiServerServletFilter</filter-class>
+  </filter>
+
+    <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <servlet-mapping>
+    <servlet-name>process</servlet-name>
+    <url-pattern>/process</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>resource</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>remotefiles</servlet-name>
+    <url-pattern>/remotefiles</url-pattern>
+  </servlet-mapping>
+
+  <session-config>
+    <session-timeout>120</session-timeout>
+  </session-config>
+
+</web-app>

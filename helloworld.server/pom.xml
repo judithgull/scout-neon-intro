@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>helloworld.server</artifactId>
+  <packaging>jar</packaging>
+
+  <parent>
+    <groupId>org.eclipse.scout</groupId>
+    <artifactId>helloworld</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../helloworld</relativePath>
+  </parent>
+
+  <dependencies>
+    <!-- Project dependencies -->
+    <dependency>
+      <groupId>org.eclipse.scout</groupId>
+      <artifactId>helloworld.shared</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+
+    <!-- Scout dependencies -->
+    <dependency>
+      <groupId>org.eclipse.scout.rt</groupId>
+      <artifactId>org.eclipse.scout.rt.server</artifactId>
+      <version>${scout.project.version}</version>
+    </dependency>
+
+    <!-- 3rd party dependencies -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Test dependencies -->
+
+  </dependencies>
+</project>

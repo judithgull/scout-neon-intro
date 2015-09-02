@@ -1,0 +1,325 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.eclipse.scout</groupId>
+  <artifactId>helloworld</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <scout.project.version>5.1.0-SNAPSHOT</scout.project.version>
+    <jaxws-api.plugin.version>2.2.11</jaxws-api.plugin.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.1</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.2</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.eclipse.tycho</groupId>
+              <artifactId>tycho-compiler-jdt</artifactId>
+              <version>0.22.0</version>
+              <scope>compile</scope>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <compilerId>jdt</compilerId>
+            <source>1.8</source>
+            <target>1.8</target>
+            <compilerArgs>
+              <arg>-proc:none</arg>
+            </compilerArgs>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.jboss.jandex</groupId>
+                    <artifactId>jandex-maven-plugin</artifactId>
+                    <versionRange>[1.0.1,)</versionRange>
+                    <goals>
+                      <goal>jandex</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
+                </pluginExecution>
+                <!-- WS-STUB generation: Instrument 'm2e' to generate webservice stub in Eclipse IDE (does not affect standalone Maven build) -->
+                <!-- Note: Artifacts are on re-generated if the hash of 'wsartifact-hash' changes. -->
+                <!-- Note: Do not move into 'jaxws' profile because ignored by 'm2e'. -->
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.jvnet.jax-ws-commons</groupId>
+                    <artifactId>jaxws-maven-plugin</artifactId>
+                    <versionRange>[${jaxws.plugin.version},)</versionRange>
+                    <goals>
+                      <goal>wsimport</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <execute>
+                      <runOnIncremental>true</runOnIncremental>
+                    </execute >
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.jboss.jandex</groupId>
+        <artifactId>jandex-maven-plugin</artifactId>
+        <version>1.0.1</version>
+        <executions>
+          <execution>
+            <id>make-index</id>
+            <goals>
+              <goal>jandex</goal>
+            </goals>
+            <configuration></configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <!-- Profile used for JAX-WS plugins to generate webservice artifacts like stub and proxy. -->
+    <!-- This profile is activated automatically if a folder 'src/main/resources/WEB-INF/wsdl' is found.  -->
+    <profile>
+      <id>jaxws</id>
+      <activation>
+        <file>
+          <exists>${basedir}/src/main/resources/WEB-INF/wsdl</exists>
+        </file>
+      </activation>
+      <properties>
+        <!-- Plugin version of 'jaxws-maven-plugin' to generate webservice stub. -->
+        <jaxws.plugin.version>2.3.1-b20150201.1248</jaxws.plugin.version>
+        <!-- Destination directory for generated webservice artifacts  -->
+        <jaxws.stub.directory>${project.build.directory}/generated-sources/wsimport</jaxws.stub.directory>
+        <!-- Directory to contain the calculated hash of WSDL, XSD and binding-files. If changed or absent, the stub is regenerated anew. -->
+        <jaxws.stale.directory>${project.build.directory}/jaxws/wsartifact-hash</jaxws.stale.directory>
+        <!-- To enable debug output when running APT.  -->
+        <jaxws.apt.consoleLog>true</jaxws.apt.consoleLog>
+        <!-- Destination directory for generated APT artifacts. -->
+        <jaxws.apt.directory>${project.build.directory}/generated-sources/annotations</jaxws.apt.directory>
+        <!-- WSDL file name to set the 'wsdl-location' in @WebService and @WebServiceClient annotation -->
+        <jaxws.wsdl.file/>
+      </properties>
+
+      <dependencies>
+        <dependency>
+          <groupId>org.eclipse.scout.rt</groupId>
+          <artifactId>org.eclipse.scout.rt.server.jaxws</artifactId>
+          <version>${scout.project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>3.1.0</version>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+
+      <build>
+        <plugins>
+          <!-- WSIMPORT (stub generation) -->
+          <!-- Note: The stub is only re-generated if the hash of 'wsartifact-hash' changed. -->
+          <plugin>
+            <groupId>org.jvnet.jax-ws-commons</groupId>
+            <artifactId>jaxws-maven-plugin</artifactId>
+            <version>${jaxws.plugin.version}</version>
+            <configuration>
+              <wsdlDirectory>${basedir}/src/main/resources/WEB-INF/wsdl</wsdlDirectory>
+              <wsdlLocation>WEB-INF/wsdl/${jaxws.wsdl.file}</wsdlLocation>
+              <bindingDirectory>${basedir}/src/main/resources/WEB-INF/binding</bindingDirectory>
+              <sourceDestDir>${jaxws.stub.directory}</sourceDestDir>
+              <destDir>${jaxws.stub.directory}</destDir>
+              <xnocompile>true</xnocompile> <!-- compilation done by Maven -->
+              <xdisableSSLHostnameVerification>true</xdisableSSLHostnameVerification>
+              <xdisableAuthenticator>true</xdisableAuthenticator>
+              <xdebug>true</xdebug>
+              <verbose>true</verbose>
+              <target>2.0</target>
+              <keep>true</keep>
+              <staleFile>${jaxws.stale.directory}</staleFile>
+              <vmArgs>
+                <vmArg>-Djavax.xml.accessExternalDTD=all</vmArg>
+                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+              </vmArgs>
+            </configuration>
+            <executions>
+              <execution>
+                <id>wsimport-1</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>wsimport</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- APT (PortTypeProxy, HandlerProxy, handler-chain.xml) -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <compilerArgs>
+                <arg>-AconsoleLog=${jaxws.apt.consoleLog}</arg>
+                <arg>-XprintProcessorInfo</arg>
+                <arg>-XprintRounds</arg>
+              </compilerArgs>
+              <verbose>true</verbose>
+             <generatedSourcesDirectory>${jaxws.apt.directory}</generatedSourcesDirectory>
+            </configuration>
+            <dependencies>
+              <!-- dependency to the annotation processor -->
+              <dependency>
+                <groupId>org.eclipse.scout.rt</groupId>
+                <artifactId>org.eclipse.scout.jaxws.apt</artifactId>
+                <version>${scout.project.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+
+          <!-- REGISTER SOURCE FOLDER -->
+          <!-- Add 'target/generated-sources/annotations' as source folder -->
+          <!-- Add 'target/generated-sources/wsimport' as source folder -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>add-wsimport-source</id>
+                <goals>
+                  <goal>add-source</goal>
+                </goals>
+                <configuration>
+                  <sources>
+                    <source>${jaxws.stub.directory}</source>
+                  </sources>
+                </configuration>
+              </execution>
+              <execution>
+                <id>add-apt-source</id>
+                <goals>
+                  <goal>add-source</goal>
+                </goals>
+                <configuration>
+                  <sources>
+                    <source>${jaxws.apt.directory}</source>
+                  </sources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- COPY artifacts -->
+          <plugin>
+             <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-resources-plugin</artifactId>
+             <version>2.7</version>
+             <executions>
+               <!-- WSIMPORT artifacts -->
+               <execution>
+                 <id>copy-wsimport-artifacts</id>
+                 <phase>process-sources</phase> <!-- must not be 'process-resources' because APT files are only generated in compile phase -->
+                 <goals>
+                   <goal>copy-resources</goal>
+                 </goals>
+                 <configuration>
+                   <outputDirectory>${basedir}/target/classes</outputDirectory>
+                   <resources>
+                     <resource>
+                       <directory>${jaxws.stub.directory}</directory>
+                       <includes>
+                         <include>**/**.xml</include>
+                       </includes>
+                     </resource>
+                   </resources>
+                 </configuration>
+               </execution>
+               <!-- APT artifacts -->
+               <execution>
+                 <id>copy-apt-artifacts</id>
+                 <phase>process-classes</phase> <!-- must not be 'process-resources' because APT files are only generated in compile phase -->
+                 <goals>
+                   <goal>copy-resources</goal>
+                 </goals>
+                 <configuration>
+                   <outputDirectory>${basedir}/target/classes</outputDirectory>
+                   <resources>
+                     <resource>
+                       <directory>${jaxws.apt.directory}</directory>
+                       <includes>
+                         <include>**/**.xml</include>
+                       </includes>
+                     </resource>
+                   </resources>
+                 </configuration>
+               </execution>
+               <!-- Copy JAX-WS artifacts to 'META-INF/resources/WEB-INF/wsdl' to respect ServletContext resource-loading API -->
+               <!-- That is crucial if 'JAX-WS implementor' loads resources by ServletContext, e.g. METRO -->
+               <execution>
+                 <id>copy-jaxws-artifacts-to-meta-inf</id>
+                 <phase>process-resources</phase>
+                 <goals>
+                   <goal>copy-resources</goal>
+                 </goals>
+                 <configuration>
+                   <outputDirectory>${basedir}/target/classes/META-INF/resources/WEB-INF/wsdl</outputDirectory>
+                   <resources>
+                     <resource>
+                       <directory>${basedir}/src/main/resources/WEB-INF/wsdl</directory>
+                     </resource>
+                   </resources>
+                 </configuration>
+               </execution>
+             </executions>
+          </plugin>
+        </plugins>
+
+        <!-- EXCLUDE BINDING FILES (not used at runtime) -->
+        <resources>
+            <resource>
+              <directory>${basedir}/src/main/resources</directory>
+              <includes>
+                <include>**/**</include>
+              </includes>
+              <excludes>
+                <exclude>**/binding/</exclude>
+              </excludes>
+            </resource>
+        </resources>
+      </build>
+    </profile>
+  </profiles>
+</project>
