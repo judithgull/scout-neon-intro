@@ -59,9 +59,13 @@ public class ClassInventoryTest {
     assertThat(beanClasses, hasEntryMatching(e -> "MyService".equals(e.name())));
   }
 
-  //TODO 3: The ClassInventory only collects classes in projects with an empty scout.xml file (see src/main/resources/META-INF/scout.xml).
+  //TODO 3: The ClassInventory only collects classes in projects with a resource called META-INF/scout.xml.
+  //Scanning all classes would unnecessary slow and consume too much memory.
+
+  //The file scout.xml is just an empty xml file (see src/main/resources/META-INF/scout.xml).
   //Scout itself also has scout.xml files in all its projects.
   //The format XML, because it may be required later to add exclusions, but this is not possible right now.
+
   //See what happens, if you delete the scout.xml file.
 
 }
