@@ -1,15 +1,15 @@
 package helloworld.server;
 
 import org.eclipse.scout.commons.exception.ProcessingException;
+import org.eclipse.scout.rt.server.Server;
+
 import helloworld.shared.company.CompanySearchFormData;
 import helloworld.shared.company.CompanyTablePageData;
 import helloworld.shared.company.CompanyTablePageData.CompanyTableRowData;
 import helloworld.shared.company.IStandardOutlineService;
-import org.eclipse.scout.rt.platform.service.AbstractService;
-import org.eclipse.scout.rt.server.Server;
 
 @Server
-public class StandardOutlineService extends AbstractService implements IStandardOutlineService {
+public class StandardOutlineService implements IStandardOutlineService {
 
   @Override
   public CompanyTablePageData getCompanyTableData(CompanySearchFormData formData) throws ProcessingException {
