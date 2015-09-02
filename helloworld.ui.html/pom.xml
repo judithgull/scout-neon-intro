@@ -6,7 +6,7 @@
   <packaging>jar</packaging>
 
   <parent>
-    <groupId>org.eclipse.scout</groupId>
+    <groupId>helloworld</groupId>
     <artifactId>helloworld</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <relativePath>../helloworld</relativePath>
@@ -15,7 +15,7 @@
   <dependencies>
     <!-- Project dependencies -->
     <dependency>
-      <groupId>org.eclipse.scout</groupId>
+      <groupId>helloworld</groupId>
       <artifactId>helloworld.client</artifactId>
       <version>${project.version}</version>
     </dependency>
