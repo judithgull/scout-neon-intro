@@ -6,7 +6,7 @@ import org.eclipse.scout.rt.shared.TunnelToServer;
 
 @ApplicationScoped
 @TunnelToServer
-public interface IStandardOutlineService {
+public interface ICompanyOutlineService {
 
   CompanyTablePageData getCompanyTableData(CompanySearchFormData formData) throws ProcessingException;
 

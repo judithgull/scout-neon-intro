@@ -11,7 +11,7 @@ import helloworld.shared.company.CompanySearchFormData;
 import helloworld.shared.company.CompanyTablePageData;
 import helloworld.shared.company.CompanyTypeCodeType;
 import helloworld.shared.company.ICompanyService;
-import helloworld.shared.company.IStandardOutlineService;
+import helloworld.shared.company.ICompanyOutlineService;
 import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
 import org.eclipse.scout.rt.client.ui.action.menu.IMenuType;
 import org.eclipse.scout.rt.client.ui.action.menu.TableMenuType;
@@ -50,7 +50,7 @@ public class CompanyTablePage extends AbstractPageWithTable<Table> {
     if (formData == null) {
       formData = new CompanySearchFormData();
     }
-    CompanyTablePageData pageData = BEANS.get(IStandardOutlineService.class).getCompanyTableData(formData);
+    CompanyTablePageData pageData = BEANS.get(ICompanyOutlineService.class).getCompanyTableData(formData);
     importPageData(pageData);
   }
 

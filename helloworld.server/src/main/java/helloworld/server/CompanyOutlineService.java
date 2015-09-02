@@ -6,10 +6,10 @@ import org.eclipse.scout.rt.server.Server;
 import helloworld.shared.company.CompanySearchFormData;
 import helloworld.shared.company.CompanyTablePageData;
 import helloworld.shared.company.CompanyTablePageData.CompanyTableRowData;
-import helloworld.shared.company.IStandardOutlineService;
+import helloworld.shared.company.ICompanyOutlineService;
 
 @Server
-public class StandardOutlineService implements IStandardOutlineService {
+public class CompanyOutlineService implements ICompanyOutlineService {
 
   @Override
   public CompanyTablePageData getCompanyTableData(CompanySearchFormData formData) throws ProcessingException {
