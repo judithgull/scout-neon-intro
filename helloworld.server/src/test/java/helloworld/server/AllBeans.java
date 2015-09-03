@@ -10,7 +10,7 @@
  ******************************************************************************/
 package helloworld.server;
 
-import static helloworld.server.util.CollectionMatchers.matchesAnyOf;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isIn;
@@ -50,7 +50,7 @@ public class AllBeans {
   public void findingAllInstancesReplace() {
     List<ITextProviderService> allTexts = BEANS.all(ITextProviderService.class);
     assertThat(BEANS.get(ScoutTextProviderService.class), isIn(allTexts));
-    assertThat((o) -> o instanceof TextProviderServiceReplacement, matchesAnyOf(allTexts));
+    assertThat(allTexts, hasItem(instanceOf(TextProviderServiceReplacement.class)));
     assertThat(allTexts.size(), is(3));
   }
 

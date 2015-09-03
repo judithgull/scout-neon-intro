@@ -10,9 +10,9 @@
  ******************************************************************************/
 package helloworld.server;
 
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import org.eclipse.scout.commons.Assertions.AssertionException;
 import org.eclipse.scout.rt.platform.ApplicationScoped;
@@ -65,7 +65,7 @@ public class BeanManagerTest {
   @Test
   public void lookupByInterface() {
     IPersonService p = null;// BEANS.get(...); FIX
-    assertTrue(p instanceof PersonService);
+    assertThat(p, instanceOf(PersonService.class));
   }
 
   /**
@@ -75,7 +75,7 @@ public class BeanManagerTest {
   @Test
   public void multipleInstancesByClass() {
     IAddressService a = null; // BEANS.get(...); FIX
-    assertTrue(a instanceof AddressService);
+    assertThat(a, instanceOf(AddressService.class));
   }
 
   /**
