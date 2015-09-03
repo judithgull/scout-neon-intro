@@ -10,7 +10,7 @@
  ******************************************************************************/
 package helloworld.server;
 
-import static helloworld.server.CollectionMatchers.matchesAnyOf;
+import static helloworld.server.util.CollectionMatchers.matchesAnyOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isIn;

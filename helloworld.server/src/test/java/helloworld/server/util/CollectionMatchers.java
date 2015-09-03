@@ -8,7 +8,7 @@
  * Contributors:
  *     BSI Business Systems Integration AG - initial API and implementation
  ******************************************************************************/
-package helloworld.server;
+package helloworld.server.util;
 
 import java.util.Collection;
 import java.util.Collections;
