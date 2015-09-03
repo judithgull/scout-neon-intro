@@ -12,7 +12,7 @@ package helloworld.server;
 
 import static helloworld.server.util.CollectionMatchers.hasEntryMatching;
 import static helloworld.server.util.CollectionMatchers.matchesAnyOf;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
 import java.util.Set;
@@ -41,7 +41,7 @@ public class ClassInventoryTest {
 
     Class<?> expectedClass = null; // TODO 1.1: specify the expected class
     assertThat(coServices, hasEntryMatching(e -> e.resolveClass().equals(expectedClass)));
-    assertThat(coServices.size(), is(1));
+    assertThat(coServices, hasSize(1));
   }
 
   /**
