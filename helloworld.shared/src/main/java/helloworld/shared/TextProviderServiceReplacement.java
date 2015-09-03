@@ -8,13 +8,10 @@
  * Contributors:
  *     BSI Business Systems Integration AG - initial API and implementation
  ******************************************************************************/
-package helloworld.server.person;
+package helloworld.shared;
 
-public class PersonService implements IPersonService {
-
-  @Override
-  public String getName() {
-    return getClass().getSimpleName();
-  }
+//@Replace
+public class TextProviderServiceReplacement //extends TextProviderService
+{
 
 }

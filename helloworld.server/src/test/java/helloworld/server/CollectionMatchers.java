@@ -22,7 +22,7 @@ import org.hamcrest.Matcher;
 /**
  * Some custom hamcrest matchers for {@link Collections}s
  */
-public class SetMatchers {
+public class CollectionMatchers {
 
   public static <T> Matcher<Collection<T>> hasNoEntryMatching(final Predicate<? super T> predicate) {
     return createSetMatcher((s, p) -> s.stream().noneMatch(p), predicate);
@@ -44,6 +44,22 @@ public class SetMatchers {
       @Override
       public void describeTo(final Description description) {
         description.appendText("setMatcher should return ").appendValue(predicate.toString());
+      }
+    };
+  }
+
+  public static <T> Matcher<Predicate<? super T>> matchesAnyOf(Collection<T> c) {
+    return new BaseMatcher<Predicate<? super T>>() {
+      @Override
+      public boolean matches(final Object item) {
+        @SuppressWarnings("unchecked")
+        final Predicate<? super T> predicate = (Predicate<? super T>) item;
+        return c.stream().anyMatch(predicate);
+      }
+
+      @Override
+      public void describeTo(final Description description) {
+        description.appendText("collection does not match expression.").appendValue(c.toString());
       }
     };
   }

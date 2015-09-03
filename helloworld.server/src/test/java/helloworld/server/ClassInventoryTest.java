@@ -10,8 +10,8 @@
  ******************************************************************************/
 package helloworld.server;
 
-import static helloworld.server.SetMatchers.hasEntryMatching;
-import static helloworld.server.SetMatchers.hasNoEntryMatching;
+import static helloworld.server.CollectionMatchers.hasEntryMatching;
+import static helloworld.server.CollectionMatchers.matchesAnyOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -37,7 +37,7 @@ public class ClassInventoryTest {
   public void testFindKnownSubclasses() {
     Set<IClassInfo> coServices = ClassInventory.get().getAllKnownSubClasses(ICompanyOutlineService.class);
 
-    assertThat("getAllKnownSubClasses should not return any interfaces", coServices, hasNoEntryMatching(IClassInfo::isInterface));
+    assertThat(IClassInfo::isInterface, matchesAnyOf(coServices));
 
     Class<?> expectedClass = null; // TODO 1.1: specify the expected class
     assertThat(coServices, hasEntryMatching(e -> e.resolveClass().equals(expectedClass)));
