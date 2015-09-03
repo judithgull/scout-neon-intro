@@ -39,13 +39,13 @@ public class ClassInventoryTest {
 
     assertThat("getAllKnownSubClasses should not return any interfaces", coServices, hasNoEntryMatching(IClassInfo::isInterface));
 
-    Class<?> expectedClass = null; // TODO 1: specify the expected class
+    Class<?> expectedClass = null; // TODO 1.1: specify the expected class
     assertThat(coServices, hasEntryMatching(e -> e.resolveClass().equals(expectedClass)));
     assertThat(coServices.size(), is(1));
   }
 
   /**
-   * TODO 2: Create a new class 'MyService' annotated with {@link Bean}.
+   * TODO 1.2: Create a new class 'MyService' annotated with {@link Bean}.
    * <p>
    * Clean the workspace before running the test,
    * because the jandex index is cached in projectName/target/classes/META-INF/jandex.idx.
@@ -59,7 +59,7 @@ public class ClassInventoryTest {
     assertThat(beanClasses, hasEntryMatching(e -> "MyService".equals(e.name())));
   }
 
-  //TODO 3: The ClassInventory only collects classes in projects with a resource called META-INF/scout.xml.
+  //TODO 1.3: The ClassInventory only collects classes in projects with a resource called META-INF/scout.xml.
   //Scanning all classes would unnecessary slow and consume too much memory.
 
   //The file scout.xml is just an empty xml file (see src/main/resources/META-INF/scout.xml).
