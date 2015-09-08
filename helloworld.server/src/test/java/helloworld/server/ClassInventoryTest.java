@@ -31,6 +31,7 @@ import helloworld.shared.company.ICompanyOutlineService;
 public class ClassInventoryTest {
 
   /**
+   * TODO 1.1: Browsing the ClassInventory
    * It is possible to find all subclasses with {@link IClassInventory#getAllKnownSubClasses(Class)}
    */
   @Test
@@ -39,13 +40,14 @@ public class ClassInventoryTest {
 
     assertThat(IClassInfo::isInterface, matchesAnyOf(coServices));
 
-    Class<?> expectedClass = null; // TODO 1.1: specify the expected class
+    Class<?> expectedClass = null; //fix: specify the expected class
     assertThat(coServices, hasEntryMatching(e -> e.resolveClass().equals(expectedClass)));
     assertThat(coServices, hasSize(1));
   }
 
   /**
-   * TODO 1.2: Create a new class 'MyService' annotated with {@link Bean}.
+   * TODO 1.2: Finding annotated classes
+   * Create a new class 'MyService' annotated with {@link Bean}.
    * <p>
    * Clean the workspace before running the test,
    * because the jandex index is cached in projectName/target/classes/META-INF/jandex.idx.
