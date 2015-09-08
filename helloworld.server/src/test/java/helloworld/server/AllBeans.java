@@ -11,8 +11,8 @@
 package helloworld.server;
 
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isIn;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
@@ -39,7 +39,7 @@ public class AllBeans {
   public void findingAllInstances() {
     List<ITextProviderService> allTexts = BEANS.all(ITextProviderService.class);
     assertThat(BEANS.get(ScoutTextProviderService.class), isIn(allTexts));
-    assertThat(allTexts.size(), is(3));
+    assertThat(allTexts, hasSize(3));
   }
 
   /**
@@ -51,7 +51,7 @@ public class AllBeans {
     List<ITextProviderService> allTexts = BEANS.all(ITextProviderService.class);
     assertThat(BEANS.get(ScoutTextProviderService.class), isIn(allTexts));
     assertThat(allTexts, hasItem(instanceOf(TextProviderServiceReplacement.class)));
-    assertThat(allTexts.size(), is(3));
+    assertThat(allTexts, hasSize(3));
   }
 
   /**
